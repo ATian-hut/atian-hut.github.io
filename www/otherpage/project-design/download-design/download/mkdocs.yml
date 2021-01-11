@@ -1,0 +1,8 @@
+site_name: 下载
+
+  
+theme:
+  name: 'material'
+  language: 'zh'
+  search:
+    language: 'jp'
