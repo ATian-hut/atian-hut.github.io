@@ -1,0 +1,8 @@
+site_name: Project
+
+  
+theme:
+  name: 'material'
+  language: 'zh'
+  search:
+    language: 'jp'
