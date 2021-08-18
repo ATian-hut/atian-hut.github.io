@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>无标题页面</title>
+    <meta name="generator" content="WYSIWYG Web Builder 16 - https://www.wysiwygwebbuilder.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="无标题2.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <script src="jquery-1.12.4.min.js"></script>
+    <script src="wb.stickylayer.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#Layer1").stickylayer({
+                orientation: 2,
+                position: [0, 0],
+                delay: 500,
+                keepOriginalPos: true
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <script src="simplepeer.min.js"></script>
+
+
+    <div id="wb_LayoutGrid1">
+        <div id="LayoutGrid1">
+            <div class="row">
+                <div class="col-1">
+                </div>
+                <div class="col-2">
+                    <input type="text" id="yourid" style="display:inline-block;width:109px;height:23px;z-index:0;" name="Editbox1" value="" spellcheck="false" placeholder="Yourid">
+                    <input type="text" id="otherid" style="display:inline-block;width:110px;height:23px;z-index:1;" name="Editbox1" value="" spellcheck="false" placeholder="Otherid">
+                    <input type="submit" id="connect" value="Connect" style="display:inline-block;width:77px;height:25px;z-index:2;">
+
+
+
+
+                    <div id="wb_MediaPlayer2" style="display:inline-block;width:113px;height:140px;z-index:3;">
+                        <video id="MediaPlayer2" autoplay>
+<source src="">
+</video>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Layer1" style="position:absolute;text-align:right;left:0px;top:186px;width:100%;height:41.6667%;z-index:6;">
+        <div id="Layer1_Container" style="width:970px;position:relative;margin-left:auto;margin-right:0;text-align:left;">
+            <div id="wb_MediaPlayer1" style="position:absolute;left:15px;top:38px;width:940px;height:535px;z-index:4;">
+                <audio id="MediaPlayer1" autoplay>
+<source src="">
+                </audio>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        navigator.mediaDevices.getUserMedia({
+            video: false,
+            audio: false,
+
+        }).then(function(stream) {
+
+            document.getElementById('MediaPlayer2').srcObject = stream;
+        })
+    </script>
+
+
+    <script>
+        navigator.getUserMedia({
+            video: false,
+            audio: true,
+
+        }, function(stream) {
+
+
+            const p = new SimplePeer({
+                initiator: location.hash === '#1',
+                trickle: false,
+                stream: stream
+            })
+
+            p.on('error', err => console.log('error', err))
+
+            p.on('signal', data => {
+                console.log('SIGNAL', JSON.stringify(data))
+
+                document.getElementById('yourid').value = JSON.stringify(data);
+            })
+
+
+            document.getElementById('connect').addEventListener('click', function() {
+                let otherid = JSON.parse(document.getElementById('otherid').value);
+                p.signal(otherid);
+            })
+
+
+
+            p.on('data', function(data) {
+                document.getElementById('message').textContent += data + '\n';
+            })
+
+            p.on('connect', () => {
+
+                let con = 'CONNECT';
+                if (con = 'CONNECT') {
+                    document.getElementById('yourid').style.display = "none";
+                    document.getElementById('otherid').style.display = "none";
+                    document.getElementById('connect').style.display = "none";
+                } else {
+
+                }
+            })
+
+            p.on('stream', function(stream) {
+                let video = document.getElementById('MediaPlayer1');
+                video.srcObject = stream;
+
+
+            })
+
+
+
+        }, function(err) {
+            console.error(err);
+        })
+    </script>
+
+
+
+
+</body>
+
+</html>
