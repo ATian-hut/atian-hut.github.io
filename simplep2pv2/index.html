@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>无标题页面</title>
+    <meta name="generator" content="WYSIWYG Web Builder 16 - https://www.wysiwygwebbuilder.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="无标题1.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <script src="jquery-1.12.4.min.js"></script>
+    <script src="wb.stickylayer.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#Layer2").stickylayer({
+                orientation: 2,
+                position: [10, 10],
+                delay: 500
+            });
+        });
+    </script>
+    <script src="simplepeer.min.js"></script>
+    <script>
+        function xiaoshi() {
+
+            if (document.getElementById('Button1').style.display == "none") {
+
+                document.getElementById('Button1').style.display = "inline-block";
+                document.getElementById('Button3').style.display = "inline-block";
+                document.getElementById('Button4').style.display = "inline-block";
+            } else {
+
+
+                document.getElementById('Button1').style.display = "none";
+                document.getElementById('Button3').style.display = "none";
+                document.getElementById('Button4').style.display = "none";
+            }
+
+
+        }
+    </script>
+    <script>
+        function dianji() {
+            alert("点了")
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <div id="Layer1" style="position:fixed;text-align:left;left:0;right:0;bottom:0;height:120px;z-index:12;">
+        <div id="wb_LayoutGrid2">
+            <div id="LayoutGrid2">
+                <div class="row">
+                    <div class="col-1">
+                        <input type="submit" onclick="dianji()" id="Button1" name="" value="Submit" style="display:inline-block;width:69px;height:46px;z-index:0;">
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" id="Button3" name="" value="Submit" style="display:inline-block;width:68px;height:46px;z-index:1;">
+                    </div>
+                    <div class="col-3">
+                        <input type="submit" id="Button4" name="" value="Submit" style="display:inline-block;width:64px;height:46px;z-index:2;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="FlexContainer1">
+        <div id="wb_MediaPlayer1" style="display:inline-block;width:100px;height:56px;z-index:4;">
+            <video id="MediaPlayer1" onclick="xiaoshi()" autoplay controls>
+<source src="">
+</video>
+
+        </div>
+    </div>
+    <div id="Layer2" style="position:absolute;text-align:left;left:629px;top:134px;width:331px;height:127px;z-index:14;">
+        <div id="wb_MediaPlayer2" style="position:absolute;left:223px;top:0px;width:104px;height:127px;z-index:5;">
+            <video id="MediaPlayer2" autoplay>
+<source src="" >
+</video>
+        </div>
+        <input type="text" id="yourid" style="position:absolute;left:85px;top:10px;width:119px;height:13px;z-index:6;" name="Editbox1" value="" spellcheck="false" placeholder="YourID">
+        <input type="text" id="otherid" style="position:absolute;left:85px;top:42px;width:119px;height:13px;z-index:7;" name="Editbox1" value="" spellcheck="false" placeholder="OtherID">
+        <input type="submit" id="connect" name="" value="Connect" style="position:absolute;left:85px;top:73px;width:101px;height:25px;z-index:8;">
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false,
+
+        }).then(function(stream) {
+
+            document.getElementById('MediaPlayer2').srcObject = stream;
+        })
+    </script>
+
+
+    <script>
+        navigator.getUserMedia({
+            video: true,
+            audio: true,
+
+        }, function(stream) {
+
+
+            const p = new SimplePeer({
+                initiator: location.hash === '#1',
+                trickle: false,
+                stream: stream
+            })
+
+            p.on('error', err => console.log('error', err))
+
+            p.on('signal', data => {
+                console.log('SIGNAL', JSON.stringify(data))
+
+                document.getElementById('yourid').value = JSON.stringify(data);
+            })
+
+
+            document.getElementById('connect').addEventListener('click', function() {
+                let otherid = JSON.parse(document.getElementById('otherid').value);
+                p.signal(otherid);
+            })
+
+
+
+            p.on('data', function(data) {
+                document.getElementById('message').textContent += data + '\n';
+            })
+
+            p.on('connect', () => {
+
+                let con = 'CONNECT';
+                if (con = 'CONNECT') {
+                    document.getElementById('yourid').style.display = "none";
+                    document.getElementById('otherid').style.display = "none";
+                    document.getElementById('connect').style.display = "none";
+                } else {
+
+                }
+            })
+
+            p.on('stream', function(stream) {
+                let video = document.getElementById('MediaPlayer1');
+                video.srcObject = stream;
+
+
+            })
+
+
+
+        }, function(err) {
+            console.error(err);
+        })
+    </script>
+
+</body>
+
+</html>
