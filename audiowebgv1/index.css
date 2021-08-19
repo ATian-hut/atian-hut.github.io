@@ -1,0 +1,81 @@
+body {
+    background-color: #7F7F7F;
+    color: #000000;
+    font-family: Arial;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 1.1875;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #0000FF;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #800080;
+}
+
+a:active {
+    color: #FF0000;
+}
+
+a:hover {
+    color: #0000FF;
+    text-decoration: underline;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+#wb_Image1 {
+    vertical-align: top;
+}
+
+#Image1 {
+    border: 3px groove rgba(0, 0, 0, 0.20);
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#Layer1 {
+    background-color: #D9E2F3;
+    background-image: none;
+    border-radius: 30px;
+}
+
+#Layer1-divider-bottom {
+    overflow: hidden;
+    position: absolute;
+    line-height: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    transform: scaleX(-1.0);
+}
+
+#Layer1-divider-bottom svg {
+    display: block;
+    width: 200%;
+    height: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#Layer1-divider-bottom .divider-fill {
+    fill: #920d4f;
+    transform-origin: bottom;
+    transform: rotateY(0deg);
+}

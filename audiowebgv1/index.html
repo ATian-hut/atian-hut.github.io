@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>无标题页面</title>
+    <meta name="generator" content="WYSIWYG Web Builder 16 - https://www.wysiwygwebbuilder.com">
+    <link href="无标题1.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <script src="jquery-1.12.4.min.js"></script>
+    <script src="wb.stickylayer.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#Layer1").stickylayer({
+                orientation: 9,
+                position: [0, 0],
+                delay: 500
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+
+
+
+
+
+    <div class="container">
+
+        <p><span id="status"></span></p>
+    </div>
+    <audio id="MediaPlayer1" autoplay>
+        <source src="">
+                        </audio>
+
+
+
+    <input type="text" id="yourid" style="display:inline-block;width:109px;height:23px;z-index:0;" name="Editbox1" value="" spellcheck="false" placeholder="Yourid">
+    <input type="text" id="otherid" style="display:inline-block;width:110px;height:23px;z-index:1;" name="Editbox1" value="" spellcheck="false" placeholder="Otherid">
+    <input type="submit" id="connect" value="Connect" style="display:inline-block;width:77px;height:25px;z-index:2;">
+
+
+
+
+
+    <div id="Layer1" style="position:absolute;overflow:hidden;text-align:center;left:374px;top:165px;width:200px;height:200px;z-index:1;">
+        <div id="Layer1-divider-bottom">
+            <svg id="bigHalfCircle" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <path class="divider-fill" d="M0 100 C40 0 60 0 100 100 Z" />
+</svg></div>
+        <div id="Layer1_Container" style="width:200px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+            <div id="wb_Image1" style="position:absolute;left:40px;top:41px;width:114px;height:113px;z-index:0;">
+                <img src="images/macbookkeyboard320_faded.jpg" id="Image1" alt=""></div>
+        </div>
+    </div>
+
+
+
+
+    <script src="simplepeer.min.js"></script>
+
+    <script>
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // 获取用户的 media 信息
+            navigator.mediaDevices.getUserMedia({
+                audio: true
+            }).then((stream) => {
+
+
+
+
+
+                const p = new SimplePeer({
+                    initiator: location.hash === '#1',
+                    trickle: false,
+                    stream: stream
+                })
+
+
+
+
+
+                p.on('error', err => console.log('error', err))
+
+                p.on('signal', data => {
+                    console.log('SIGNAL', JSON.stringify(data))
+
+                    document.getElementById('yourid').value = JSON.stringify(data);
+                })
+
+
+                document.getElementById('connect').addEventListener('click', function() {
+                    let otherid = JSON.parse(document.getElementById('otherid').value);
+                    p.signal(otherid);
+                })
+
+
+
+                p.on('data', function(data) {
+                    document.getElementById('message').textContent += data + '\n';
+                })
+
+                p.on('connect', () => {
+
+                    let con = 'CONNECT';
+                    if (con = 'CONNECT') {
+                        document.getElementById('yourid').style.display = "none";
+                        document.getElementById('otherid').style.display = "none";
+                        document.getElementById('connect').style.display = "none";
+                    } else {
+
+                    }
+                })
+
+
+                p.on('stream', function(stream) {
+                    let audioContext = new(window.AudioContext || window.webkitAudioContext)()
+                    let mediaStreamSource = null
+                    let scriptProcessor = null
+                        // 将麦克风的声音输入这个对象
+                    mediaStreamSource = audioContext.createMediaStreamSource(stream)
+                        // 创建一个音频分析对象，采样的缓冲区大小为4096，输入和输出都是单声道
+                    scriptProcessor = audioContext.createScriptProcessor(1024, 1, 1)
+                        // 将该分析对象与麦克风音频进行连接
+                    mediaStreamSource.connect(scriptProcessor)
+                        // 此举无甚效果，仅仅是因为解决 Chrome 自身的 bug
+                    scriptProcessor.connect(audioContext.destination)
+
+                    // 开始处理音频
+                    scriptProcessor.onaudioprocess = function(e) {
+                        // 获得缓冲区的输入音频，转换为包含了PCM通道数据的32位浮点数组
+                        let buffer = e.inputBuffer.getChannelData(0)
+                            // 获取缓冲区中最大的音量值
+                        let maxVal = Math.max.apply(Math, buffer)
+                        document.getElementById("Layer1-divider-bottom").style.height = Math.round(maxVal * 300 + 50) + 'px';
+                        // 显示音量值
+                    };
+                    let video = document.getElementById('MediaPlayer1');
+                    video.srcObject = stream;
+
+                })
+
+
+
+
+
+            }).catch((error) => {
+                mystatus.innerHTML = '获取音频时好像出了点问题。' + error
+            })
+        } else {
+            mystatus.innerHTML = '不支持获取媒体接口'
+        }
+    </script>
+</body>
+
+</html>
